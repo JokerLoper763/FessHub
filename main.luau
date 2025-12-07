@@ -1,11 +1,6 @@
--- FessHub Main Loader v1.0.1
--- Advanced Automation Framework for Roblox
--- Made with  by FessHub Team
-
 local VERSION = "1.0.1"
 local BETA_MODE = false
 
--- Supported Games Configuration
 local SupportedGames = {
     {
         Name = "Blox Fruits",
