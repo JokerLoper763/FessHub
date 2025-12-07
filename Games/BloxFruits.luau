@@ -402,6 +402,27 @@ end
 function FessHub:TakeQuest()
     if not Settings.AutoQuest then return end
     
+    local questGui = LocalPlayer.PlayerGui:FindFirstChild("Main")
+    if not questGui then return end
+    
+    local questContainer = questGui:FindFirstChild("Quest")
+    if not questContainer then return end
+    
+    local questVisible = questContainer.Visible
+    
+    if questVisible then
+        local questTitle = questContainer:FindFirstChild("Container")
+        if questTitle then
+            local questText = questTitle:FindFirstChild("QuestTitle")
+            if questText and questText.Title then
+                local currentQuestName = questText.Title.Text
+                if string.find(currentQuestName, QuestData.NameQuest) then
+                    return
+                end
+            end
+        end
+    end
+    
     self:CheckQuest()
     
     if self:GetDistance(QuestData.CFrameQuest.Position) > 10 then
@@ -409,7 +430,13 @@ function FessHub:TakeQuest()
         task.wait(1)
     end
     
-    ReplicatedStorage.Remotes.CommF_:InvokeServer("StartQuest", QuestData.NameQuest, QuestData.LevelQuest)
+    local success = pcall(function()
+        CommF:InvokeServer("StartQuest", QuestData.NameQuest, QuestData.LevelQuest)
+    end)
+    
+    if success then
+        task.wait(0.5)
+    end
 end
 
 function FessHub:Teleport(cframe)
@@ -439,46 +466,16 @@ function FessHub:Attack()
         end
         
         if targetPart and #nearbyEnemies > 0 then
-            FastAttackRemotes.RegisterAttack:FireServer(0.1)
-            FastAttackRemotes.RegisterHit:FireServer(targetPart, nearbyEnemies)
-        end
-    else
-        local tool = Character:FindFirstChildOfClass("Tool")
-        if not tool then
-            for _, item in pairs(LocalPlayer.Backpack:GetChildren()) do
-                if item:IsA("Tool") then
-                    Humanoid:EquipTool(item)
-                    task.wait(0.1)
-                    tool = item
-                    break
-                end
-            end
-        end
-        
-        if tool then
-            tool:Activate()
+            pcall(function()
+                FastAttackRemotes.RegisterAttack:FireServer(0.1)
+                FastAttackRemotes.RegisterHit:FireServer(targetPart, nearbyEnemies)
+            end)
         end
     end
     
     self:Click()
 end
 
-function FessHub:EquipWeapon()
-    if not self:IsAlive() then return end
-    
-    if Character:FindFirstChildOfClass("Tool") then
-        return
-    end
-    
-    for _, item in pairs(LocalPlayer.Backpack:GetChildren()) do
-        if item:IsA("Tool") then
-            Humanoid:EquipTool(item)
-            return
-        end
-    end
-end
-
--- Auto Stats System
 function FessHub:AutoStats()
     if not Settings.AutoStats then return end
     
