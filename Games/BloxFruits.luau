@@ -1,12 +1,7 @@
-﻿-- FessHub - Blox Fruits Edition
--- Advanced Auto Farm & Automation System
--- Version: 1.0.0
-
 local Fetcher, UserSettings = ...
 
 print("[FessHub] Loading Blox Fruits module...")
 
--- Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
