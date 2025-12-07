@@ -14,60 +14,12 @@
 
 ##  Supported Games
 -  **Blox Fruits** - Full automation suite
--  **Meme Sea** - Complete farming system
--  More games coming soon!
 
 ##  Installation
 
 ### Global Loader
 ```lua
 loadstring(game:HttpGet("https://raw.githubusercontent.com/JokerLoper763/FessHub/main/main.luau"))()
-```
-
-### Blox Fruits Specific
-```lua
-local Settings = {
-    -- Team
-    Team = "Pirates",  -- "Pirates" or "Marines"
-    
-    -- Main Farm
-    AutoFarm = true,
-    FarmMode = "Quest",  -- "Quest" or "Nearest"
-    AutoQuest = true,
-    BringMobs = true,
-    FastAttack = true,
-    SpinPosition = true,  -- Anti-ban rotation
-    
-    -- Mastery System
-    AutoMastery = false,
-    MasteryMode = "Fruit",  -- "Fruit", "Sword", "Gun"
-    MasteryHealth = 25,  -- % HP threshold
-    UseSkillZ = true,
-    UseSkillX = true,
-    UseSkillC = true,
-    UseSkillV = false,
-    UseSkillF = false,
-    
-    -- Auto Stats
-    AutoStats = false,
-    StatMelee = false,
-    StatDefense = false,
-    StatFruit = true,  -- Focus on fruit
-    StatSword = false,
-    StatGun = false,
-    StatPoints = 1,  -- Points per allocation
-    
-    -- Sea Events
-    AutoSeaEvent = false,
-    SelectedBoat = "Guardian",
-    FarmTerrorshark = true,
-    FarmPiranha = true,
-    FarmShark = true,
-    FarmSeaBeast = true,
-    BoatSpeed = 300
-}
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/JokerLoper763/FessHub/main/main.luau"))(Settings)
 ```
 
 ##  Features List
@@ -117,82 +69,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/JokerLoper763/FessHub
 -  **Auto Collect** - Material farming
 -  **Auto Redeem Codes** - Automatic code redemption
 
-##  Settings
-
-```lua
-Settings = {
-    -- Team Settings
-    Team = "Pirates",  -- "Pirates" or "Marines"
-    
-    -- Main Farm Settings
-    AutoFarm = true,
-    FarmMode = "Quest",  -- "Quest" or "Nearest"
-    AutoQuest = true,
-    BringMobs = true,
-    BringMode = "Normal",  -- "Normal" or "Advanced"
-    FastAttack = true,
-    AttackDistance = 15,
-    SpinPosition = true,  -- Anti-ban rotation
-    
-    -- Mastery System
-    AutoMastery = false,
-    MasteryMode = "Fruit",  -- "Fruit", "Sword", "Gun"
-    MasteryHealth = 25,  -- % HP threshold for skill usage
-    UseSkillZ = true,
-    UseSkillX = true,
-    UseSkillC = true,
-    UseSkillV = false,
-    UseSkillF = false,
-    
-    -- Auto Stats System
-    AutoStats = false,
-    StatMelee = false,    -- Auto add Melee points
-    StatDefense = false,  -- Auto add Defense points
-    StatFruit = false,    -- Auto add Devil Fruit points
-    StatSword = false,    -- Auto add Sword points
-    StatGun = false,      -- Auto add Gun points
-    StatPoints = 1,       -- Points per allocation
-    
-    -- Sea Events System
-    AutoSeaEvent = false,
-    SelectedBoat = "Guardian",  -- Boat type
-    FarmTerrorshark = false,
-    FarmPiranha = false,
-    FarmShark = false,
-    FarmSeaBeast = false,
-    BoatSpeed = 300,  -- Boat tween speed
-    
-    -- Weapon Settings
-    SelectWeapon = "Melee",  -- "Melee", "Sword", "Gun", "Fruit"
-    
-    -- Boss Settings
-    AutoBoss = false,
-    SelectBoss = "All",
-    
-    -- Misc Settings
-    AutoHaki = true,
-    AutoObservation = false,
-    AntiAFK = true,
-    WhiteScreen = false,
-    NoClip = true
-}
-```
-
-##  UI Themes
--  **Dark** (Default)
--  **Ocean**
--  **Fire**
--  **Sakura**
--  **Diamond**
-
-##  Discord Server
-Join our community for:
--  Support & Help
--  Updates & Announcements
--  Bug Reports
--  Feature Requests
-
-**Discord:** discord.gg/fesshub
 
 ##  Disclaimer
 This script is for educational purposes only. Use at your own risk. We are not responsible for any bans or account issues.
@@ -202,7 +78,6 @@ This script is for educational purposes only. Use at your own risk. We are not r
 ### Version 1.0.0 (December 2025)
 -  Initial release
 -  Blox Fruits support
--  Meme Sea support
 -  Modern UI system
 -  Anti-detection system
 
