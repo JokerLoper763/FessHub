@@ -1015,11 +1015,53 @@ function FessHub:CreateUI()
         end
     end)
     
-    -- Auto Mastery Toggle
+    local WeaponBtn = Instance.new("TextButton")
+    WeaponBtn.Name = "WeaponBtn"
+    WeaponBtn.Size = UDim2.new(0.9, 0, 0, 40)
+    WeaponBtn.Position = UDim2.new(0.05, 0, 0, 120)
+    WeaponBtn.BackgroundColor3 = Color3.fromRGB(55, 55, 65)
+    WeaponBtn.BorderSizePixel = 0
+    WeaponBtn.Font = Enum.Font.Gotham
+    WeaponBtn.Text = "Weapon: " .. Settings.SelectWeapon
+    WeaponBtn.TextColor3 = Color3.fromRGB(150, 200, 255)
+    WeaponBtn.TextSize = 16
+    WeaponBtn.Parent = MainFrame
+    
+    local WeaponCorner = Instance.new("UICorner")
+    WeaponCorner.CornerRadius = UDim.new(0, 8)
+    WeaponCorner.Parent = WeaponBtn
+    
+    local weaponTypes = {"Melee", "Sword", "Gun", "Fruit"}
+    local currentIndex = 1
+    for i, wType in ipairs(weaponTypes) do
+        if wType == Settings.SelectWeapon then
+            currentIndex = i
+            break
+        end
+    end
+    
+    WeaponBtn.MouseButton1Click:Connect(function()
+        currentIndex = currentIndex + 1
+        if currentIndex > #weaponTypes then
+            currentIndex = 1
+        end
+        
+        Settings.SelectWeapon = weaponTypes[currentIndex]
+        WeaponBtn.Text = "Weapon: " .. Settings.SelectWeapon
+        
+        local colors = {
+            Melee = Color3.fromRGB(255, 150, 100),
+            Sword = Color3.fromRGB(150, 150, 255),
+            Gun = Color3.fromRGB(200, 200, 100),
+            Fruit = Color3.fromRGB(200, 100, 255)
+        }
+        WeaponBtn.TextColor3 = colors[Settings.SelectWeapon] or Color3.fromRGB(150, 200, 255)
+    end)
+    
     local MasteryBtn = Instance.new("TextButton")
     MasteryBtn.Name = "MasteryBtn"
     MasteryBtn.Size = UDim2.new(0.9, 0, 0, 40)
-    MasteryBtn.Position = UDim2.new(0.05, 0, 0, 120)
+    MasteryBtn.Position = UDim2.new(0.05, 0, 0, 170)
     MasteryBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
     MasteryBtn.BorderSizePixel = 0
     MasteryBtn.Font = Enum.Font.Gotham
@@ -1038,11 +1080,10 @@ function FessHub:CreateUI()
         MasteryBtn.TextColor3 = Settings.AutoMastery and Color3.fromRGB(85, 255, 85) or Color3.fromRGB(255, 85, 85)
     end)
     
-    -- Auto Stats Toggle
     local StatsBtn = Instance.new("TextButton")
     StatsBtn.Name = "StatsBtn"
     StatsBtn.Size = UDim2.new(0.9, 0, 0, 40)
-    StatsBtn.Position = UDim2.new(0.05, 0, 0, 170)
+    StatsBtn.Position = UDim2.new(0.05, 0, 0, 220)
     StatsBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
     StatsBtn.BorderSizePixel = 0
     StatsBtn.Font = Enum.Font.Gotham
@@ -1061,11 +1102,10 @@ function FessHub:CreateUI()
         StatsBtn.TextColor3 = Settings.AutoStats and Color3.fromRGB(85, 255, 85) or Color3.fromRGB(255, 85, 85)
     end)
     
-    -- Sea Events Toggle
     local SeaBtn = Instance.new("TextButton")
     SeaBtn.Name = "SeaBtn"
     SeaBtn.Size = UDim2.new(0.9, 0, 0, 40)
-    SeaBtn.Position = UDim2.new(0.05, 0, 0, 220)
+    SeaBtn.Position = UDim2.new(0.05, 0, 0, 270)
     SeaBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
     SeaBtn.BorderSizePixel = 0
     SeaBtn.Font = Enum.Font.Gotham
@@ -1088,11 +1128,10 @@ function FessHub:CreateUI()
         end
     end)
     
-    -- Status Info
     local StatusLabel = Instance.new("TextLabel")
     StatusLabel.Name = "StatusLabel"
-    StatusLabel.Size = UDim2.new(0.9, 0, 0, 200)
-    StatusLabel.Position = UDim2.new(0.05, 0, 0, 280)
+    StatusLabel.Size = UDim2.new(0.9, 0, 0, 150)
+    StatusLabel.Position = UDim2.new(0.05, 0, 0, 330)
     StatusLabel.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     StatusLabel.BorderSizePixel = 0
     StatusLabel.Font = Enum.Font.Gotham
