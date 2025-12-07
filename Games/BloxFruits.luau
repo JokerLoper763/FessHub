@@ -402,6 +402,7 @@ end
 
 function FessHub:TakeQuest()
     if not Settings.AutoQuest then return end
+    if not QuestData or not QuestData.NameQuest then return end
     
     local questGui = LocalPlayer.PlayerGui:FindFirstChild("Main")
     if not questGui then return end
@@ -409,16 +410,19 @@ function FessHub:TakeQuest()
     local questContainer = questGui:FindFirstChild("Quest")
     if not questContainer then return end
     
-    local questVisible = questContainer.Visible
-    
-    if questVisible then
-        local questTitle = questContainer:FindFirstChild("Container")
-        if questTitle then
-            local questText = questTitle:FindFirstChild("QuestTitle")
-            if questText and questText.Title then
-                local currentQuestName = questText.Title.Text
-                if string.find(currentQuestName, QuestData.NameQuest) then
+    if questContainer.Visible == true then
+        local container = questContainer:FindFirstChild("Container")
+        if container then
+            local questTitle = container:FindFirstChild("QuestTitle")
+            if questTitle and questTitle:FindFirstChild("Title") then
+                local titleText = questTitle.Title.Text
+                if string.find(titleText, QuestData.NameMon) then
                     return
+                else
+                    pcall(function()
+                        CommF:InvokeServer("AbandonQuest")
+                    end)
+                    task.wait(0.5)
                 end
             end
         end
@@ -431,13 +435,11 @@ function FessHub:TakeQuest()
         task.wait(1)
     end
     
-    local success = pcall(function()
+    pcall(function()
         CommF:InvokeServer("StartQuest", QuestData.NameQuest, QuestData.LevelQuest)
     end)
     
-    if success then
-        task.wait(0.5)
-    end
+    task.wait(0.5)
 end
 
 function FessHub:Teleport(cframe)
