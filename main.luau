@@ -2,7 +2,7 @@
 -- Advanced Automation Framework for Roblox
 -- Made with  by FessHub Team
 
-local _ENV = (getgenv or getrenv or getfenv)()
+local _ENV = getgenv and getgenv() or _G
 local VERSION = "1.0.0"
 local BETA_MODE = _ENV.FESS_BETA_MODE
 
