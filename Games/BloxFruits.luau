@@ -49,6 +49,7 @@ local Settings = {
     
     -- Weapon
     SelectWeapon = "Melee",
+    SelectedWeaponName = nil,
     
     -- Boss
     AutoBoss = false,
@@ -444,8 +445,73 @@ function FessHub:Teleport(cframe)
     HumanoidRootPart.CFrame = cframe
 end
 
+function FessHub:AutoSelectWeapon()
+    local weaponType = Settings.SelectWeapon
+    
+    for _, tool in pairs(LocalPlayer.Backpack:GetChildren()) do
+        if tool:IsA("Tool") then
+            local tooltip = tool.ToolTip
+            
+            if weaponType == "Melee" and tooltip == "Melee" then
+                Settings.SelectedWeaponName = tool.Name
+                return
+            elseif weaponType == "Sword" and tooltip == "Sword" then
+                Settings.SelectedWeaponName = tool.Name
+                return
+            elseif weaponType == "Gun" and tooltip == "Gun" then
+                Settings.SelectedWeaponName = tool.Name
+                return
+            elseif weaponType == "Fruit" and tooltip == "Blox Fruit" then
+                Settings.SelectedWeaponName = tool.Name
+                return
+            end
+        end
+    end
+    
+    for _, tool in pairs(Character:GetChildren()) do
+        if tool:IsA("Tool") then
+            local tooltip = tool.ToolTip
+            
+            if weaponType == "Melee" and tooltip == "Melee" then
+                Settings.SelectedWeaponName = tool.Name
+                return
+            elseif weaponType == "Sword" and tooltip == "Sword" then
+                Settings.SelectedWeaponName = tool.Name
+                return
+            elseif weaponType == "Gun" and tooltip == "Gun" then
+                Settings.SelectedWeaponName = tool.Name
+                return
+            elseif weaponType == "Fruit" and tooltip == "Blox Fruit" then
+                Settings.SelectedWeaponName = tool.Name
+                return
+            end
+        end
+    end
+end
+
+function FessHub:EquipWeapon()
+    if not self:IsAlive() then return end
+    
+    self:AutoSelectWeapon()
+    
+    if not Settings.SelectedWeaponName then
+        return
+    end
+    
+    if Character:FindFirstChild(Settings.SelectedWeaponName) then
+        return
+    end
+    
+    local weapon = LocalPlayer.Backpack:FindFirstChild(Settings.SelectedWeaponName)
+    if weapon then
+        Humanoid:EquipTool(weapon)
+    end
+end
+
 function FessHub:Attack()
     if not self:IsAlive() then return end
+    
+    self:EquipWeapon()
     
     if Settings.FastAttack and FastAttackRemotes.RegisterAttack and FastAttackRemotes.RegisterHit then
         local nearbyEnemies = {}
