@@ -1,19 +1,9 @@
--- FessHub Main Loader v1.0.0
+-- FessHub Main Loader v1.0.1
 -- Advanced Automation Framework for Roblox
 -- Made with  by FessHub Team
 
-local VERSION = "1.0.0"
-
--- Safe environment getter
-local function GetEnv()
-    local success, result = pcall(function()
-        return getgenv and getgenv() or _G
-    end)
-    return success and result or _G
-end
-
-local env = GetEnv()
-local BETA_MODE = env.FESS_BETA_MODE or false
+local VERSION = "1.0.1"
+local BETA_MODE = false
 
 -- Supported Games Configuration
 local SupportedGames = {
@@ -35,14 +25,11 @@ local URLs = {}
 
 -- Anti-Spam Protection
 do
-    local env = GetEnv()
-    local lastExecution = env.fess_execute_debounce
-    
-    if lastExecution and (tick() - lastExecution) <= 3 then
+    if _G.fess_execute_debounce and (tick() - _G.fess_execute_debounce) <= 3 then
         return warn("[FessHub] Please wait before re-executing!")
     end
     
-    env.fess_execute_debounce = tick()
+    _G.fess_execute_debounce = tick()
 end
 
 -- URL Configuration
@@ -56,14 +43,11 @@ URLs.Utils = URLs.Repository .. "Utils/"
 do
     local queueTeleport = queue_on_teleport or (syn and syn.queue_on_teleport)
     
-    if queueTeleport and type(queueTeleport) == "function" then
-        local env = GetEnv()
+    if queueTeleport and type(queueTeleport) == "function" and not _G.fess_teleport_queued then
+        _G.fess_teleport_queued = true
         
-        if not env.fess_teleport_queued then
-            local scriptSettings = {...}
-            local settingsCode = ""
-            
-            env.fess_teleport_queued = true
+        local scriptSettings = {...}
+        local settingsCode = ""
         
         local success, encoded = pcall(function()
             return game:GetService("HttpService"):JSONEncode(scriptSettings)
@@ -89,20 +73,18 @@ end
 
 -- Error Display System
 do
-    local env = GetEnv()
-    
-    if env.fess_error_message then
-        env.fess_error_message:Destroy()
-        env.fess_error_message = nil
+    if _G.fess_error_message then
+        _G.fess_error_message:Destroy()
+        _G.fess_error_message = nil
     end
     
     local function CreateError(text)
-        env.fess_farm_loaded = nil
-        env.fess_farm_active = false
+        _G.fess_farm_loaded = nil
+        _G.fess_farm_active = false
         
         local message = Instance.new("Message", workspace)
         message.Text = "[FessHub Error] " .. text
-        env.fess_error_message = message
+        _G.fess_error_message = message
         
         task.delay(10, function()
             if message and message.Parent then
