@@ -3,7 +3,8 @@
 -- Made with  by FessHub Team
 
 local VERSION = "1.0.0"
-local BETA_MODE = getgenv and getgenv().FESS_BETA_MODE or false
+local env = getgenv and getgenv() or _G
+local BETA_MODE = env.FESS_BETA_MODE or false
 
 -- Supported Games Configuration
 local SupportedGames = {
