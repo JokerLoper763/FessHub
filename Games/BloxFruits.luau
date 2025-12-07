@@ -408,11 +408,14 @@ function FessHub:Attack()
     if not self:IsAlive() then return end
     
     self:EquipWeapon()
+    task.wait(0.1)
     
     local tool = Character:FindFirstChildOfClass("Tool")
     if tool then
         tool:Activate()
     end
+    
+    self:Click()
 end
 
 function FessHub:EquipWeapon()
@@ -420,21 +423,20 @@ function FessHub:EquipWeapon()
     
     local weaponName = Settings.SelectWeapon
     
-    if not Character:FindFirstChild(weaponName) then
-        local tool = LocalPlayer.Backpack:FindFirstChild(weaponName)
-        if tool then
-            Humanoid:EquipTool(tool)
-            task.wait(0.1)
-        else
-            local currentTool = Character:FindFirstChildOfClass("Tool")
-            if not currentTool then
-                for _, tool in pairs(LocalPlayer.Backpack:GetChildren()) do
-                    if tool:IsA("Tool") then
-                        Humanoid:EquipTool(tool)
-                        break
-                    end
-                end
-            end
+    if Character:FindFirstChild(weaponName) then
+        return
+    end
+    
+    local tool = LocalPlayer.Backpack:FindFirstChild(weaponName)
+    if tool then
+        Humanoid:EquipTool(tool)
+        return
+    end
+    
+    for _, item in pairs(LocalPlayer.Backpack:GetChildren()) do
+        if item:IsA("Tool") then
+            Humanoid:EquipTool(item)
+            return
         end
     end
 end
@@ -632,30 +634,25 @@ function FessHub:StartAutoFarm()
                     local spinPos = self:GetSpinPosition()
                     local attackCFrame = enemy.Root.CFrame * spinPos
                     
-                    -- Move to enemy
                     if self:GetDistance(enemy.Root.Position) > 250 then
                         self:Tween(attackCFrame, 300)
                     else
                         self:Teleport(attackCFrame)
                     end
                     
-                    -- Bring Mobs
                     self:BringMobs(enemy.Root.CFrame)
                     
-                    -- Attack
-                    self:Attack()
-                    
-                    -- Use Mastery Skills
-                    if Settings.AutoMastery then
-                        self:UseMasterySkills()
+                    if Settings.FastAttack then
+                        for i = 1, 3 do
+                            self:Attack()
+                            task.wait(0.15)
+                        end
+                    else
+                        self:Attack()
                     end
                     
-                    -- Fast Attack
-                    if Settings.FastAttack then
-                        for i = 1, 5 do
-                            self:Attack()
-                            task.wait(0.05)
-                        end
+                    if Settings.AutoMastery and enemy.Humanoid.Health < (enemy.Humanoid.MaxHealth * Settings.MasteryHealth / 100) then
+                        self:UseMasterySkills()
                     end
                 else
                     -- No enemies, go to spawn location
