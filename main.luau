@@ -3,7 +3,16 @@
 -- Made with  by FessHub Team
 
 local VERSION = "1.0.0"
-local env = getgenv and getgenv() or _G
+
+-- Safe environment getter
+local function GetEnv()
+    local success, result = pcall(function()
+        return getgenv and getgenv() or _G
+    end)
+    return success and result or _G
+end
+
+local env = GetEnv()
 local BETA_MODE = env.FESS_BETA_MODE or false
 
 -- Supported Games Configuration
@@ -26,7 +35,7 @@ local URLs = {}
 
 -- Anti-Spam Protection
 do
-    local env = getgenv and getgenv() or _G
+    local env = GetEnv()
     local lastExecution = env.fess_execute_debounce
     
     if lastExecution and (tick() - lastExecution) <= 3 then
@@ -48,7 +57,7 @@ do
     local queueTeleport = queue_on_teleport or (syn and syn.queue_on_teleport)
     
     if queueTeleport and type(queueTeleport) == "function" then
-        local env = getgenv and getgenv() or _G
+        local env = GetEnv()
         
         if not env.fess_teleport_queued then
             local scriptSettings = {...}
@@ -80,7 +89,7 @@ end
 
 -- Error Display System
 do
-    local env = getgenv and getgenv() or _G
+    local env = GetEnv()
     
     if env.fess_error_message then
         env.fess_error_message:Destroy()
