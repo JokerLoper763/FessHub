@@ -8,16 +8,29 @@ local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
--- Player
 local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local Humanoid = Character:WaitForChild("Humanoid")
 local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 
--- Game References
 local Workspace = workspace
 local Enemies = Workspace:WaitForChild("Enemies")
 local NPCs = Workspace:WaitForChild("NPCs")
+
+local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+local CommF = Remotes:WaitForChild("CommF_")
+
+local FastAttackRemotes = {
+    RegisterAttack = nil,
+    RegisterHit = nil
+}
+
+pcall(function()
+    local Modules = ReplicatedStorage:WaitForChild("Modules")
+    local Net = Modules:WaitForChild("Net")
+    FastAttackRemotes.RegisterAttack = Net:WaitForChild("RE/RegisterAttack")
+    FastAttackRemotes.RegisterHit = Net:WaitForChild("RE/RegisterHit")
+end)
 
 -- Default Settings
 local Settings = {
@@ -407,12 +420,44 @@ end
 function FessHub:Attack()
     if not self:IsAlive() then return end
     
-    self:EquipWeapon()
-    task.wait(0.1)
-    
-    local tool = Character:FindFirstChildOfClass("Tool")
-    if tool then
-        tool:Activate()
+    if Settings.FastAttack and FastAttackRemotes.RegisterAttack and FastAttackRemotes.RegisterHit then
+        local nearbyEnemies = {}
+        local targetPart = nil
+        
+        for _, enemy in pairs(Enemies:GetChildren()) do
+            local head = enemy:FindFirstChild("Head")
+            local hum = enemy:FindFirstChild("Humanoid")
+            if head and hum and hum.Health > 0 then
+                local distance = (HumanoidRootPart.Position - head.Position).Magnitude
+                if distance < 100 then
+                    table.insert(nearbyEnemies, {enemy, head})
+                    if not targetPart then
+                        targetPart = head
+                    end
+                end
+            end
+        end
+        
+        if targetPart and #nearbyEnemies > 0 then
+            FastAttackRemotes.RegisterAttack:FireServer(0.1)
+            FastAttackRemotes.RegisterHit:FireServer(targetPart, nearbyEnemies)
+        end
+    else
+        local tool = Character:FindFirstChildOfClass("Tool")
+        if not tool then
+            for _, item in pairs(LocalPlayer.Backpack:GetChildren()) do
+                if item:IsA("Tool") then
+                    Humanoid:EquipTool(item)
+                    task.wait(0.1)
+                    tool = item
+                    break
+                end
+            end
+        end
+        
+        if tool then
+            tool:Activate()
+        end
     end
     
     self:Click()
@@ -421,15 +466,7 @@ end
 function FessHub:EquipWeapon()
     if not self:IsAlive() then return end
     
-    local weaponName = Settings.SelectWeapon
-    
-    if Character:FindFirstChild(weaponName) then
-        return
-    end
-    
-    local tool = LocalPlayer.Backpack:FindFirstChild(weaponName)
-    if tool then
-        Humanoid:EquipTool(tool)
+    if Character:FindFirstChildOfClass("Tool") then
         return
     end
     
