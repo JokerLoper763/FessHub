@@ -407,9 +407,35 @@ end
 function FessHub:Attack()
     if not self:IsAlive() then return end
     
+    self:EquipWeapon()
+    
     local tool = Character:FindFirstChildOfClass("Tool")
     if tool then
         tool:Activate()
+    end
+end
+
+function FessHub:EquipWeapon()
+    if not self:IsAlive() then return end
+    
+    local weaponName = Settings.SelectWeapon
+    
+    if not Character:FindFirstChild(weaponName) then
+        local tool = LocalPlayer.Backpack:FindFirstChild(weaponName)
+        if tool then
+            Humanoid:EquipTool(tool)
+            task.wait(0.1)
+        else
+            local currentTool = Character:FindFirstChildOfClass("Tool")
+            if not currentTool then
+                for _, tool in pairs(LocalPlayer.Backpack:GetChildren()) do
+                    if tool:IsA("Tool") then
+                        Humanoid:EquipTool(tool)
+                        break
+                    end
+                end
+            end
+        end
     end
 end
 
