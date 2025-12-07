@@ -1,13 +1,3 @@
-if _G.fess_execute_debounce and (tick() - _G.fess_execute_debounce) <= 3 then
-    return warn("[FessHub] Please wait before re-executing!")
-end
-_G.fess_execute_debounce = tick()
-
-if _G.fess_error_message then
-    pcall(function() _G.fess_error_message:Destroy() end)
-    _G.fess_error_message = nil
-end
-
 print("[FessHub] Loading...")
 
 local VERSION = "1.0.1"
@@ -21,6 +11,16 @@ URLs.Library = URLs.Repository .. "Library/"
 URLs.Utils = URLs.Repository .. "Utils/"
 
 local Fetcher = {}
+
+if _G.fess_execute_debounce and (tick() - _G.fess_execute_debounce) <= 3 then
+    return warn("[FessHub] Please wait before re-executing!")
+end
+_G.fess_execute_debounce = tick()
+
+if _G.fess_error_message then
+    pcall(function() _G.fess_error_message:Destroy() end)
+    _G.fess_error_message = nil
+end
 
 local queueTeleport = queue_on_teleport or (syn and syn.queue_on_teleport)
 if queueTeleport and type(queueTeleport) == "function" and not _G.fess_teleport_queued then
