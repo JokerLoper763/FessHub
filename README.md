@@ -32,14 +32,14 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/JokerLoper763/FessHub
 -  **Fast Attack** - Rapid attack system
 -  **Spin Position** - Anti-ban rotation around mobs
 
-#### ⚔️ Mastery System
+#### ⚔️ Mastery System - Coming soon
 -  **Auto Fruit Mastery** - Automatic skill usage (Z/X/C/V/F)
 -  **Auto Sword Mastery** - Sword skill automation
 -  **Auto Gun Mastery** - Gun mastery farming
 -  **Smart Skill Usage** - Health threshold control
 -  **Configurable Skills** - Toggle individual skills
 
-#### 📊 Auto Stats
+#### 📊 Auto Stats - Coming soon
 -  **Auto Add Melee** - Automatic melee stat distribution
 -  **Auto Add Defense** - Defense stat allocation
 -  **Auto Add Fruit** - Devil fruit stat boost
@@ -47,7 +47,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/JokerLoper763/FessHub
 -  **Auto Add Gun** - Gun stat distribution
 -  **Customizable Points** - Set points per allocation
 
-#### 🌊 Sea Events
+#### 🌊 Sea Events - Coming soon
 -  **Auto Terrorshark** - Farm Terrorshark
 -  **Auto Piranha** - Piranha farming
 -  **Auto Shark** - Shark hunting
@@ -55,7 +55,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/JokerLoper763/FessHub
 -  **Boat Tween** - Smooth boat navigation
 -  **Boat Selection** - Choose your boat type
 
-#### 🛠️ Additional Features
+#### 🛠️ Additional Features - Coming soon
 -  **Auto Bosses** - Boss farming system
 -  **Auto Haki** - Automatic Buso activation
 -  **Auto Observation** - Observation Haki training
@@ -63,7 +63,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/JokerLoper763/FessHub
 -  **White Screen** - Performance boost
 -  **Anti-AFK** - Prevent AFK kicks
 
-### Meme Sea
+### Meme Sea - Coming Soon (Possibly)
 -  **Auto Farm** - Level & quest automation
 -  **Auto Boss** - Boss hunting
 -  **Auto Collect** - Material farming
